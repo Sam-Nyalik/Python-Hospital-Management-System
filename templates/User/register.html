@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+
+{% block title %}User Register{% endblock %}
+
+{% block content %}
+<div id="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="login_section">
+                    <div class="back_link">
+                        <a href="{{ url_for('user_login') }}"><i class="bi bi-arrow-left-circle"></i> back</a>
+                    </div>
+                    <h3>User Registration</h3>
+                    <hr>
+                    <form action="{{ url_for('user_register') }}" method="post" class="login_form">
+                        <!-- error message -->
+                        <div class="form-group my-2">
+                            {% if message %}
+                            <span class="errors text-danger">{{ message }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <!-- FullName -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="FullName">Full Name</label>
+                                    <input type="text" name="fullName" class="form-control" value="{{ fullName }}">
+                                    {% if fullName_error %}
+                                    <span class="errors text-danger">{{ fullName_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- EmailAddress -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="EmailAddress">Email Address</label>
+                                    <input type="email" name="emailAddress" class="form-control"
+                                        value="{{ emailAddress }}">
+                                    {% if email_error %}
+                                    <span class="errors text-danger">{{ email_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Gender -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="Gender">Gender</label>
+                                    <select name="gender" class="form-control" required>
+                                        <option value="" disabled>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    {% if gender_error %}
+                                    <span class="errors text-danger">{{ gender_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Age -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="Age">Age</label>
+                                    <input type="text" name="age" class="form-control">
+                                    {% if age_error %}
+                                    <span class="errors text-danger">{{ age_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Password -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" class="form-control">
+                                    {% if password_error %}
+                                    <span class="errors text-danger">{{ password_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- ConfirmPassword -->
+                            <div class="col-6">
+                                <div class="form-group my-3">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" name="confirmPassword" class="form-control">
+                                    {% if confirmPassword_error %}
+                                    <span class="errors text-danger">{{ confirmPassword_error }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit btn -->
+                        <div class="form-group my-3">
+                            <input type="submit" value="Register" class="w-100 btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
