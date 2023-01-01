@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div id="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="login_section">
+                    <div class="back_link">
+                        <a href="{{ url_for('home') }}"><i class="bi bi-arrow-left-circle"></i> home</a>
+                    </div>
+                    <h3>Admin Login</h3>
+                    <hr>
+                    <form action="{{ url_for('admin_login') }}" class="login_form" method="post">
+                        <!-- Error message -->
+                        <div class="form-group my-2">
+                            {% if message %}
+                            <span class="errors text-danger">{{ message }}</span>
+                            {% endif %}
+                        </div>
+                        <!-- Email Address -->
+                        <div class="form-group my-3">
+                            <label for="EmailAddress">Email Address</label>
+                            <input type="email" name="emailAddress" class="form-control" value="{{ emailAddress }}">
+                            {% if emailAddress_error %}
+                            <span class="errors text-danger">{{ emailAddress_error }}</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group my-3">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" value="{{ password }}">
+                            {% if password_error %}
+                            <span class="errors text-danger">{{ password_error }}</span>
+                            {% endif %}
+                        </div>
+
+                        <a href="{{ url_for('admin_register') }}">Register</a>
+
+                        <!-- Button -->
+                        <div class="form-group my-3">
+                            <input type="submit" value="Login" class="btn w-100">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
