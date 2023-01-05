@@ -10,7 +10,7 @@ app.secret_key = 'your secret key'
 # Database Connection
 app.config['MYSQL_DATABASE'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Caroltosh-44717101216200019'
+app.config['MYSQL_PASSWORD'] = 'Your mysql database password'
 app.config['MYSQL_DB'] = 'hospitalSystem'
 
 db = MySQL(app)
