@@ -1,0 +1,126 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{%block content%}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-light bg-faded">
+            <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">Nyalik Hms</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Doctors
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="#" class="dropdown-item">Doctor Specialization</a>
+                            <a href="{{ url_for('add_doctor') }}" class="dropdown-item">Add doctor</a>
+                            <a href="#" class="dropdown-item">Manage doctors</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Users
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="{{ url_for('manage_users') }}" class="dropdown-item">Manage Users</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Patients
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="#" class="dropdown-item">Manage Patients</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Contact-Us Queries
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Unread Queries</a>
+                            <a class="dropdown-item" href="#">Read Queries</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <h5 class="dropdown-item">{{ session['fullName'] }} </h5>
+                            <hr>
+                            <a href="{{ url_for('admin_profile') }}" class="dropdown-item">Profile</a>
+                            <hr>
+                            <a href="{{ url_for('admin_logout') }}" class="dropdown-item">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main_title">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Dashboard</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="float-right">Welcome back, {{ db_fullName }}</h6>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="main_content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Doctors</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ url_for('manage_users') }}">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Users</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Patients</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Finance</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Nurses</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                            <h5>Pharmacy</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

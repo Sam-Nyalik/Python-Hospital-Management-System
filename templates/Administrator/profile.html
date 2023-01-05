@@ -1,0 +1,128 @@
+{%extends 'layout.html'%}
+
+{%block title %}Admin Profile{%endblock%}
+
+{%block content%}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-light bg-faded">
+            <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">Nyalik Hms</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Doctors
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="#" class="dropdown-item">Doctor Specialization</a>
+                            <a href="#" class="dropdown-item">Add doctor</a>
+                            <a href="#" class="dropdown-item">Manage doctors</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Users
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="#" class="dropdown-item">Manage Users</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">Patients
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="#" class="dropdown-item">Manage Patients</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Contact-Us Queries
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Unread Queries</a>
+                            <a class="dropdown-item" href="#">Read Queries</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Admin <span
+                                class="sr-only">(current)</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <h5 class="dropdown-item">{{ session['fullName'] }} </h5>
+                            <hr>
+                            <a href="{{ url_for('admin_profile') }}" class="dropdown-item">Profile</a>
+                            <hr>
+                            <a href="{{ url_for('admin_logout') }}" class="dropdown-item">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main_title">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Profile</h5>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="main_content" style="margin: 20px 0;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="login_section">
+                                <form action="{{ url_for('admin_profile') }}" method="post" class="login_form">
+                                    <!-- Message -->
+                                    <div class="form-group my-2">
+                                        <span class="errors text-success">{{ message }}</span>
+                                    </div>
+                                    <!-- FullName -->
+                                    <div class="form-group my-3">
+                                        <label for="FullName">Full Name</label>
+                                        <input type="text" name="fullName" value="{{ db_fullName }}" class="form-control">
+                                        {%if fullName_error%}
+                                        <span class="errors text-danger">{{ fullName_error }}</span>
+                                        {%endif%}
+                                    </div>
+                                    <!-- Email Address -->
+                                    <div class="form-group my-3">
+                                        <label for="EmailAddress">Email Address</label>
+                                        <input type="email" readonly value="{{ db_emailAddress }}" class="form-control">
+                                    </div>
+                                    <!-- Update password link -->
+                                    <div class="form-group my-3">
+                                        <a href="{{ url_for('admin_password_reset') }}"><h6>Update Password</h6></a>
+                                    </div>
+                                    <!-- Update btn -->
+                                    <div class="form-group my-3">
+                                        <input type="submit" value="Update Profile" class="w-100 btn">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

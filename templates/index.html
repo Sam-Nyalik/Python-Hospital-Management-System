@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-faded">
+  <a class="navbar-brand" href="{{ url_for('home') }}">Nyalik Hospital System</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">Doctors</a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url_for('admin_login') }}" class="nav-link">Admin</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Departments
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- homepage -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="home_page">
+      <div class="image">
+        <img src="{{ url_for('static', filename='image2.jpg') }}" alt="" class="img-responsive img-fluid">
+      </div>
+      <div class="home_page1">
+        <h5>Committed to success</h5>
+        <h3>We Care about <br> your <span>health</span></h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum fugiat rerum sed, optio aut amet deleniti
+          ipsa voluptates laudantium temporibus?</p>
+        <a href="{{ url_for('user_login') }}" class="btn">Appointment</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
