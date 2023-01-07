@@ -10,7 +10,7 @@ app.secret_key = 'your secret key'
 # Database Connection
 app.config['MYSQL_DATABASE'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Your mysql database password'
+app.config['MYSQL_PASSWORD'] = 'Caroltosh-44717101216200019'
 app.config['MYSQL_DB'] = 'hospitalSystem'
 
 db = MySQL(app)
@@ -429,14 +429,142 @@ def manage_users():
         cursor.execute("SELECT * FROM users ORDER BY registration_date")
         account = cursor.fetchall()
         count = 1
-    return render_template('Administrator/users/manage_users.html', account=account, count=count)
+        
+        return render_template('Administrator/users/manage_users.html', account=account, count=count)
 
     # Redirect to the login page
     return redirect(url_for('admin_login'))
 
+# Admin doctir speciality route
+@app.route('/hospitalSystem/doctor_speciality', methods=['GET', 'POST'])
+def doctor_speciality():
+    # Define variables and assign them empty values
+    speciality = ''
+    speciality_error = ''
+    message = ''
+    # Check if the admin is loggedIn
+    if 'loggedIn' in session:
+        # Select all speciality from the database
+        db_specialities = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        db_specialities.execute("SELECT * FROM doctor_speciality ORDER BY creationDate ASC")
+        all_db_specialities = db_specialities.fetchall()
+        
+        # Process form data
+        if request.method == 'POST':
+            # Validate doctorSpeciality
+            if request.form['doctorSpeciality'] == '':
+                speciality_error = "Field is required"
+            else:
+                speciality = request.form['doctorSpeciality']
+                
+        if not speciality_error:
+            cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("SELECT * FROM doctor_speciality WHERE speciality = %s", (speciality,))
+            db_speciality = cursor.fetchone()
+            
+            if db_speciality:
+                speciality_error = "Speciality already exists"
+            else:
+                # Prepare an INSERT statement
+                cursor.execute("INSERT INTO doctor_speciality(speciality) VALUES(%s)", (speciality,))
+                db.connection.commit()
+                
+                message = "Doctor speciality has been added successfully"
+        # return the doctor_speciality.html template
+        return render_template('Administrator/doctors/doctor_speciality.html', speciality=speciality, speciality_error=speciality_error, message=message, all_db_specialities=all_db_specialities)
+    #Otherwise redirect to the login page
+    return redirect(url_for('admin_login'))
+
 # Admin Add doctor route
-@app.route('/hospitalSystem/add_doctor')
+@app.route('/hospitalSystem/add_doctor', methods=['GET', 'POST'])
 def add_doctor():
-    
-    # Return the add_doctor.html template
-    return render_template('Administrator/doctors/add_doctor.html')
+    # Initialize variables and assign them empty values
+    message = ''
+    fullName = ''
+    emailAddress = ''
+    doctorSpeciality = ''
+    consultationFee = ''
+    physicalAddress = ''
+    password = ''
+    confirmPassword = ''
+    fullName_error = ''
+    emailAddress_error = ''
+    doctorSpeciality_error = ''
+    consultationFee_error = ''
+    physicalAddress_error = ''
+    password_error = ''
+    confirmPassword_error = ''
+    # Check if th doctor is logged in
+    if 'loggedIn' in session:
+        # Fetch doctor data from the database
+        doctors = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        doctors.execute("SELECT * FROM doctors ORDER BY creationDate ASC")
+        all_doctors = doctors.fetchall()
+        
+        # Fetch data from doctor_specialization table
+        cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM doctor_speciality")
+        db_specialization = cursor.fetchall()
+        
+        # Process from data when the form is submitted
+        if request.method == 'POST':
+            # Validate fullName
+            if request.form['fullName'] == '':
+                fullName_error = "Field is required"
+            else:
+                fullName = request.form['fullName']
+            # Validate emailAddress
+            if request.form['emailAddress'] == '':
+                emailAddress_error = "Field is required"
+            else:
+                emailAddress = request.form['emailAddress']
+            # Validate doctorSpeciality
+            if request.form['doctorSpeciality'] == '':
+                doctorSpeciality_error = "Field is required"
+            else:
+                doctorSpeciality = request.form['doctorSpeciality']
+            # Validate consultationFee
+            if request.form['consultationFee'] == '':
+                consultationFee_error = "Field is required"
+            else:
+                consultationFee = request.form['consultationFee']
+            # Validate physicalAddress
+            if request.form['physicalAddress'] == '':
+                physicalAddress_error = "Field is required"
+            else:
+                physicalAddress = request.form['physicalAddress']
+            # Validate password
+            if request.form['password'] == '':
+                password_error = "Field is required"
+            elif len(request.form['password']) < 8:
+                password_error = "Passwords must contain more than 8 characters"
+            else:
+                password = request.form['password']
+            # Validate confirmPassword
+            if request.form['confirmPassword'] == '':
+                confirmPassword_error = "Field is required"
+            else:
+                confirmPassword = request.form['confirmPassword']
+            # Validate both password fields
+            if not password_error and password != confirmPassword:
+                confirmPassword_error = "Passwords do not match"
+            # Check for errors before dealing with the database
+            if not fullName_error and not emailAddress_error and not doctorSpeciality_error and not consultationFee_error and not physicalAddress_error and not password_error and not confirmPassword_error:
+                # Check if doctor with the input emailAddress exists
+                cursor.execute("SELECT * FROM doctors WHERE emailAddress = %s", (emailAddress,))
+                db_emailAddress = cursor.fetchone()
+                
+                if db_emailAddress:
+                    # Account with this emailAddress exists so generate an error
+                    emailAddress_error = "Email Address already exists"
+                else:
+                    # Prepare an INSERT statement
+                    cursor.execute("INSERT INTO doctors(fullName, emailAddress, speciality, consultationFee, physicalAddress, password) VALUES(%s, %s, %s, %s, %s, %s)", (fullName, emailAddress, doctorSpeciality, consultationFee, physicalAddress, password))
+                    db.connection.commit()
+                    
+                    message = "Doctor profile has been created successfully"
+            
+        # Return the add_doctor.html template
+        return render_template('Administrator/doctors/add_doctor.html', message=message, db_specialization=db_specialization, fullName=fullName, fullName_error=fullName_error, emailAddress=emailAddress, emailAddress_error=emailAddress_error, doctor_speciality=doctorSpeciality, doctorSpeciality_error=doctorSpeciality_error, consultationFee=consultationFee, consultationFee_error=consultationFee_error, physicalAddress=physicalAddress, physicalAddress_error=physicalAddress_error, password=password, password_error=password_error, confirmPassword=confirmPassword, confirmPassword_error=confirmPassword_error, all_doctors=all_doctors)
+     #Otherwise redirect to the login page
+    return redirect(url_for('admin_login'))

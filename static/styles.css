@@ -12,6 +12,14 @@
     font-family: 'Mulish', sans-serif;
 }
 
+/* Marquee */
+.marquee h5 {
+    background-color: var(--secondary-color);
+    padding: 15px 0;
+    font-size: 22px;
+    color: var(--btn-color);
+}
+
 /* Navbar */
 nav .navbar-brand {
     font-size: 30px;

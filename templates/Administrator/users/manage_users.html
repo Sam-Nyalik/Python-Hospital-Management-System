@@ -21,9 +21,8 @@
                             aria-haspopup="true" aria-expanded="true">Doctors
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a href="#" class="dropdown-item">Doctor Specialization</a>
-                            <a href="#" class="dropdown-item">Add doctor</a>
-                            <a href="#" class="dropdown-item">Manage doctors</a>
+                            <a href="{{ url_for('doctor_speciality') }}" class="dropdown-item">Doctor Specialization</a>
+                            <a href="{{ url_for('add_doctor') }}" class="dropdown-item">Add & Manage Doctors</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown active">
