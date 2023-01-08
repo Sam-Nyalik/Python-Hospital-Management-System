@@ -500,6 +500,7 @@ def add_doctor():
         doctors = db.connection.cursor(MySQLdb.cursors.DictCursor)
         doctors.execute("SELECT * FROM doctors ORDER BY creationDate ASC")
         all_doctors = doctors.fetchall()
+        count = 1
         
         # Fetch data from doctor_specialization table
         cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -565,6 +566,6 @@ def add_doctor():
                     message = "Doctor profile has been created successfully"
             
         # Return the add_doctor.html template
-        return render_template('Administrator/doctors/add_doctor.html', message=message, db_specialization=db_specialization, fullName=fullName, fullName_error=fullName_error, emailAddress=emailAddress, emailAddress_error=emailAddress_error, doctor_speciality=doctorSpeciality, doctorSpeciality_error=doctorSpeciality_error, consultationFee=consultationFee, consultationFee_error=consultationFee_error, physicalAddress=physicalAddress, physicalAddress_error=physicalAddress_error, password=password, password_error=password_error, confirmPassword=confirmPassword, confirmPassword_error=confirmPassword_error, all_doctors=all_doctors)
+        return render_template('Administrator/doctors/add_doctor.html', message=message, db_specialization=db_specialization, fullName=fullName, fullName_error=fullName_error, emailAddress=emailAddress, emailAddress_error=emailAddress_error, doctor_speciality=doctorSpeciality, doctorSpeciality_error=doctorSpeciality_error, consultationFee=consultationFee, consultationFee_error=consultationFee_error, physicalAddress=physicalAddress, physicalAddress_error=physicalAddress_error, password=password, password_error=password_error, confirmPassword=confirmPassword, confirmPassword_error=confirmPassword_error, all_doctors=all_doctors, count=count)
      #Otherwise redirect to the login page
     return redirect(url_for('admin_login'))
