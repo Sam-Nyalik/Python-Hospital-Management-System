@@ -187,15 +187,82 @@ def user_logout():
     # Redirect the user to the login page
     return redirect(url_for('user_login'))
 
+# User forgot password route
+@app.route('/hospitalSystem/user_forgot_password', methods=['GET', 'POST'])
+def user_forgot_password():
+    # Initialize variables and assign them empty values
+    message = ''
+    emailAddress = ''
+    emailAddress_error = ''
+    newPassword = ''
+    newPassword_error = ''
+    confirmNewPassword = ''
+    confirmNewPassword_error = ''
+    if request.method == 'POST':
+        # Validate email address
+        if not request.form['emailAddress']:
+            emailAddress_error = "Field is required"
+        else:
+            emailAddress = request.form['emailAddress']
+        
+        # Validate new password
+        if not request.form['newPassword']:
+            newPassword_error = "Field is required"
+        elif len(request.form['newPassword']) < 8:
+            newPassword_error = "Passwords must have at least 8 characters"
+        else:
+            newPassword = request.form['newPassword']
+            
+        # Validate confirm new password
+        if not request.form['confirmNewPassword']:
+            confirmNewPassword_error = "Field is required"
+        else:
+            confirmNewPassword = request.form['confirmNewPassword']
+        
+        # validate the new password and confirm new password
+        if not newPassword_error and newPassword != confirmNewPassword:
+            confirmNewPassword_error = "Passwords do not match"
+
+        # Check for errors before dealing with the database
+        if not emailAddress_error and newPassword_error and confirmNewPassword_error:
+            # Check if the user with the email address input exists
+            cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("SELECT * FROM users WHERE emailAddress=%s", (emailAddress,))
+            fetched_user = cursor.fetchone()
+            
+            if not fetched_user:
+                emailAddress_error = "User with this email address doesn't exist"
+            else:
+                cursor.execute("UPDATE users SET password = %s WHERE emailAddress = %s", (newPassword, emailAddress))
+                db.connection.commit()
+                
+                message = "Password has been updated successfully"
+        
+    # Render the user forgot password template
+    return render_template('User/user_forgot_password.html', emailAddress_error=emailAddress_error, newPassword_error=newPassword_error, confirmNewPassword_error=confirmNewPassword_error, message=message)
+
 
 # User dashboard route
 @app.route('/hospitalSystem/user_dashboard')
 def user_dashboard():
     # Check if the user is loggedIn
     if 'loggedIn' in session:
+        user_id = session['user_id']
         # User is logged in, redirect to the dashboard page
-        return render_template('User/dashboard.html', user_id=session['user_id'], full_name=session['fullName'])
+        return render_template('User/dashboard.html', user_id=user_id, full_name=session['fullName'])
     # User isn't logged in
+    return redirect(url_for('user_login'))
+
+# User Profile route
+@app.route('/hospitalSystem/user_profile')
+def user_profile():
+    # Check if the user is logged in
+    if 'loggedIn' in session:
+        
+        # render the user profile template
+        return render_template('User/user_profile.html')
+    
+    # User isn't loggedin redirect to the login page
     return redirect(url_for('user_login'))
 
 #Admin Login route
